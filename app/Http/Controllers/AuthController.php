@@ -31,7 +31,7 @@ class AuthController extends Controller
 
         $user = User::create($allData);
         $resArr = [];
-        $resArr['token'] = $user->createToken('api-application')->accessToken;
+        $resArr['token'] = $user->createToken('api')->accessToken;
         $resArr['name'] = $user->name;
 
         return response()->json($resArr, 200);
@@ -44,8 +44,8 @@ class AuthController extends Controller
             'password' => $request->password
         ];
         
-        if (auth('web')->attempt($credentials)) {
-            $token = auth('web')->user()->createToken('api-application')->accessToken;
+        if (auth()->attempt($credentials)) {
+            $token = auth()->user()->createToken('api')->accessToken;
             return response()->json(['token' => $token], 200);
         } else {
             return response()->json(['error' => 'UnAuthorised'], 401);

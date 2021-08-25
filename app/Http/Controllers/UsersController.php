@@ -17,8 +17,6 @@ class UsersController extends Controller
 
     const KEY_VALUE = 'KUMU_';
 
-    public $loginAfterSignUp = true;
-
     public function __construct() {
         Redis::Connection();
     }
@@ -33,14 +31,21 @@ class UsersController extends Controller
         // check if user exists
         $user = $request->user;
         $findUser = User::where('name', $user)->get();
-        $res = json_decode($findUser,true)[0];
+        $result = json_decode($findUser,true);
+        if(empty($result)) {
+            return response()->json(['Message' => 'User not Found']);
+        } else {
+            $res = $result[0];
+        }
 
         // Key use for redis
         $key = self::KEY_VALUE.$res['name'];
 
         // Get cache and response data from redis
         $cachedUser = Redis::get($key);
+
         if(!empty($cachedUser)) {
+            Redis::expire($key,120); 
             $decodedCached = json_decode($cachedUser,true);
             return response()->json($decodedCached);
         }
@@ -59,7 +64,6 @@ class UsersController extends Controller
                 ])->withHeaders([
                     'Content-Type'  => 'application/json',
                     'Accept'        => 'application/json',
-                    'Authorization' => 'token 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'
                 ])->get($url);
                 $output=json_decode($response,true);
 

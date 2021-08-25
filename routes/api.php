@@ -20,10 +20,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 }); 
 
-Route::resource('kumu','App\Http\Controllers\UsersController');
+// Route::resource('kumu','App\Http\Controllers\UsersController');
+Route::post('/register', [AuthController::class, 'register']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/login', [AuthController::class, 'login']);
 
-// Route::middleware('auth:api')->get('kumu', [UsersController::class]); 
+Route::middleware('auth:api')->post('/kumu', [UsersController::class,'store']); 
 
