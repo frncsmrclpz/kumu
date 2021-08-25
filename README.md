@@ -24,6 +24,25 @@ Api URL: http://<localhost>:port
         "nitay"
     ]
 }
+# Sample Json Response
+[
+    {
+        "Name": "atmos",
+        "Login": "atmos",
+        "Company": null,
+        "Number of Followers": 1228,
+        "Number of public repositories": 168,
+        "Average No. of Followers per Repository": 7
+    },
+    {
+        "Name": "bmizerany",
+        "Login": "bmizerany",
+        "Company": null,
+        "Number of Followers": 1294,
+        "Number of public repositories": 158,
+        "Average No. of Followers per Repository": 8
+    }
+]
 
 
 
