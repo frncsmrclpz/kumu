@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Kumu;
 use App\Models\User;
 use Cache;
@@ -14,6 +16,8 @@ class UsersController extends Controller
 {
 
     const KEY_VALUE = 'KUMU_';
+
+    public $loginAfterSignUp = true;
 
     public function __construct() {
         Redis::Connection();
@@ -29,10 +33,10 @@ class UsersController extends Controller
         // check if user exists
         $user = $request->user;
         $findUser = User::where('name', $user)->get();
-        $res = json_decode($findUser,true);
+        $res = json_decode($findUser,true)[0];
 
         // Key use for redis
-        $key = self::KEY_VALUE.$res[0]['name'];
+        $key = self::KEY_VALUE.$res['name'];
 
         // Get cache and response data from redis
         $cachedUser = Redis::get($key);
@@ -55,7 +59,7 @@ class UsersController extends Controller
                 ])->withHeaders([
                     'Content-Type'  => 'application/json',
                     'Accept'        => 'application/json',
-                    'Authorization' => 'token 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'
+                    'Authorization' => 'token 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'
                 ])->get($url);
                 $output=json_decode($response,true);
 
@@ -87,6 +91,5 @@ class UsersController extends Controller
         }        
         
     }
-
-
 }
+
