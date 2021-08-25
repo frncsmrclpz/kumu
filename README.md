@@ -1,3 +1,5 @@
+## **You should register and login first and then use the token for Authorization token header**
+
 CHALLENGE #1
 
 Endpoints:
